@@ -1,0 +1,778 @@
+<!DOCTYPE html>
+<html lang="lt" class="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mokyklos L Galerija</title>
+    <link href="https://fonts.googleapis.com/css2?family=Product+Sans:wght@400;500;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['"Product Sans"', 'Inter', 'sans-serif'],
+                    }
+                }
+            }
+        };
+
+        window.switchView = function(viewName) {
+            const sections = document.querySelectorAll('.view-section');
+            sections.forEach(sec => {
+                sec.classList.add('hidden');
+                sec.classList.remove('flex');
+            });
+
+            const target = document.getElementById(viewName + 'View');
+            if (target) {
+                target.classList.remove('hidden');
+                target.classList.add('flex');
+                target.style.animation = 'none';
+                target.offsetHeight; /* trigger reflow */
+                target.style.animation = null;
+            }
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        };
+    </script>
+    <style>
+        @keyframes robloxNeonGlow {
+            0% {
+                color: #5eead4;
+                text-shadow: 0 0 8px rgba(94, 234, 212, 0.8), 0 0 20px rgba(45, 212, 191, 0.5);
+            }
+            50% {
+                color: #38bdf8;
+                text-shadow: 0 0 12px rgba(56, 189, 248, 0.9), 0 0 25px rgba(14, 165, 233, 0.6);
+            }
+            100% {
+                color: #5eead4;
+                text-shadow: 0 0 8px rgba(94, 234, 212, 0.8), 0 0 20px rgba(45, 212, 191, 0.5);
+            }
+        }
+        .roblox-rare-neon {
+            animation: robloxNeonGlow 3s ease-in-out infinite;
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(14px) scale(0.985);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0) scale(1);
+            }
+        }
+
+        @keyframes modalFadeIn {
+            from {
+                opacity: 0;
+                transform: scale(0.92) translateY(8px);
+            }
+            to {
+                opacity: 1;
+                transform: scale(1) translateY(0);
+            }
+        }
+
+        @keyframes backdropFadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        .view-section {
+            animation: fadeInUp 0.45s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+        }
+
+        .modal-animate-backdrop {
+            animation: backdropFadeIn 0.3s ease-out forwards;
+        }
+
+        .modal-animate-content {
+            animation: modalFadeIn 0.35s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+        }
+
+        /* Dark Mint Blue Base */
+        body {
+            background: linear-gradient(135deg, #041018 0%, #081c24 50%, #030c12 100%);
+            background-color: #05131a;
+            background-attachment: fixed;
+            transition: background 0.5s ease-in-out;
+        }
+
+        /* Solid Dark Mint Blue UI Elements */
+        .solid-ui-sidebar {
+            background-color: #081720;
+            border-right: 1px solid rgba(45, 212, 191, 0.08);
+        }
+
+        .solid-ui-card {
+            background-color: #0a1f2b;
+            border: 1px solid rgba(45, 212, 191, 0.1);
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .solid-ui-card:hover {
+            border-color: rgba(45, 212, 191, 0.25);
+            box-shadow: 0 8px 30px rgba(14, 165, 233, 0.15);
+        }
+
+        .solid-ui-button {
+            background-color: rgba(45, 212, 191, 0.05);
+            border: 1px solid rgba(45, 212, 191, 0.1);
+            transition: all 0.2s ease;
+        }
+
+        .solid-ui-button:hover {
+            background-color: rgba(45, 212, 191, 0.12);
+            border-color: rgba(45, 212, 191, 0.25);
+        }
+
+        /* Advanced Liquid Glass Styles */
+        body.liquid-glass-enabled {
+            background: linear-gradient(135deg, #022330 0%, #041620 50%, #010d14 100%);
+        }
+
+        body.liquid-glass-enabled .solid-ui-sidebar {
+            background: rgba(4, 25, 36, 0.65) !important;
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border-right: 1px solid rgba(94, 234, 212, 0.15) !important;
+            box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.4), inset -1px 0 0 rgba(255, 255, 255, 0.1);
+        }
+
+        body.liquid-glass-enabled .solid-ui-card {
+            background: rgba(10, 35, 48, 0.45) !important;
+            backdrop-filter: blur(18px);
+            -webkit-backdrop-filter: blur(18px);
+            border: 1px solid rgba(255, 255, 255, 0.15) !important;
+            box-shadow: 0 12px 40px rgba(0, 0, 0, 0.45), inset 0 1px 1px rgba(255, 255, 255, 0.35), inset 0 -1px 1px rgba(0, 0, 0, 0.2) !important;
+            position: relative;
+            overflow: hidden;
+        }
+
+        body.liquid-glass-enabled .solid-ui-card::after {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 1px;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.6), transparent);
+            pointer-events: none;
+        }
+
+        body.liquid-glass-enabled .solid-ui-card:hover {
+            border-color: rgba(255, 255, 255, 0.3) !important;
+            box-shadow: 0 16px 45px rgba(45, 212, 191, 0.2), inset 0 1px 2px rgba(255, 255, 255, 0.5), inset 0 -1px 1px rgba(0, 0, 0, 0.2) !important;
+        }
+
+        body.liquid-glass-enabled .solid-ui-button {
+            background: rgba(255, 255, 255, 0.05) !important;
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.15) !important;
+            box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.2);
+        }
+
+        body.liquid-glass-enabled .solid-ui-button:hover {
+            background: rgba(255, 255, 255, 0.15) !important;
+            border-color: rgba(255, 255, 255, 0.3) !important;
+            box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.4);
+        }
+
+        body.liquid-glass-enabled::before {
+            content: "";
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            pointer-events: none;
+            z-index: 1;
+            opacity: 0.25;
+            background: radial-gradient(circle at 15% 20%, rgba(94, 234, 212, 0.25) 0%, transparent 45%),
+                        radial-gradient(circle at 85% 75%, rgba(56, 189, 248, 0.22) 0%, transparent 50%),
+                        radial-gradient(circle at 50% 50%, rgba(14, 165, 233, 0.15) 0%, transparent 60%);
+        }
+    </style>
+</head>
+<body class="text-teal-50 font-sans antialiased min-h-screen flex flex-col md:flex-row">
+
+    <!-- Sidebar -->
+    <aside class="w-full md:w-64 solid-ui-sidebar md:h-screen md:fixed flex flex-col z-20 shadow-sm">
+        <div class="p-6 border-b border-teal-900/40 flex items-center gap-3">
+            <a href="https://www.azuolyno-m.lt" target="_blank" rel="noopener noreferrer" class="shrink-0 hover:opacity-80 transition-transform hover:scale-105" title="Atdaryti azuolyno-m.lt">
+                <img src="https://www.azuolyno-m.lt/wp-content/uploads/2025/03/logo-1x1-1.png" alt="Logo" class="w-10 h-10 object-contain scale-125 drop-shadow" onerror="this.src='https://placehold.co/400x300/0a1f2b/5eead4?text=L'">
+            </a>
+            <div class="ml-1">
+                <h1 class="text-sm font-bold text-teal-100 tracking-tight">Mūsų Drama</h1>
+                <p class="text-xs text-teal-400/80 mt-0.5">Elektrėnų Ąžuolyno Prog.</p>
+            </div>
+        </div>
+
+        <div class="p-4 flex-1 overflow-y-auto space-y-6">
+            <ul class="space-y-1 text-sm font-medium">
+                <li>
+                    <button onclick="switchView('galerija')" class="w-full text-left px-3 py-2 rounded-lg text-teal-200 hover:text-white solid-ui-button transition">Home Screen-as</button>
+                </li>
+                <li>
+                    <button onclick="switchView('tualeto')" class="w-full text-left px-3 py-2 rounded-lg text-teal-200 hover:text-white solid-ui-button transition">Tualeto Drama</button>
+                </li>
+                <li>
+                    <button onclick="switchView('excuse')" class="w-full text-left px-3 py-2 rounded-lg text-teal-200 hover:text-white solid-ui-button transition">Pavėlavimo Excuse-ai</button>
+                </li>
+                <li>
+                    <button onclick="switchView('tutorialai')" class="w-full text-left px-3 py-2 rounded-lg text-teal-200 hover:text-white solid-ui-button transition">Tutorialai (naudingi)</button>
+                </li>
+            </ul>
+
+            <div class="pt-2">
+                <button id="disclaimerBtn" class="w-full text-left px-3 py-2 text-xs text-teal-400/90 hover:text-teal-200 rounded-lg solid-ui-button transition">
+                    Atsakomybės apribojimas
+                </button>
+            </div>
+        </div>
+
+        <div class="p-4 border-t border-teal-900/40 text-xs text-teal-400/70 flex items-center justify-between">
+            <div class="space-y-0.5">
+                <div>&copy; Visi L'ai pasilikti sau</div>
+                <div id="screenResolution" class="text-[11px] text-teal-300/80">Ekranas: skenuojama...</div>
+                <div class="pt-1">
+                    <a href="https://mail.google.com/mail/?view=cm&fs=1&to=Azuolynaz@gmail.com" target="_blank" rel="noopener noreferrer" class="text-[11px] font-semibold text-teal-300 hover:text-white underline decoration-teal-400/50 hover:decoration-teal-200 transition">Azuolynaz@gmail.com</a>
+                </div>
+            </div>
+            <button id="settingsBtn" title="Beta Funkcijos / Nustatymai" class="p-2.5 solid-ui-button rounded-xl text-teal-200 hover:text-white transition flex items-center justify-center">
+                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path></svg>
+            </button>
+        </div>
+    </aside>
+
+    <main class="flex-1 md:ml-64 p-6 md:p-10 flex flex-col gap-6">
+        
+        <div id="galerijaView" class="view-section flex flex-col xl:flex-row gap-8 w-full">
+            <div class="flex-1">
+                <div class="solid-ui-card rounded-2xl p-6 mb-8">
+                    <h2 class="text-xl font-bold text-teal-100 mb-1">Elektrėnų „Ąžuolyno" progimnazijos Galerija</h2>
+                    <p class="text-sm text-teal-300/80">Oficialios akimirkos, renginiai, bibliotekos naujienos ir kasdienybės drama.</p>
+                </div>
+
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 w-full">
+                    <!-- 1. School Symbol/Logo Card -->
+                    <div class="solid-ui-card rounded-2xl overflow-hidden flex flex-col justify-between">
+                        <div>
+                            <div class="relative w-full bg-gradient-to-b from-teal-950 to-teal-900 h-40 flex items-center justify-center overflow-hidden">
+                                <img src="https://www.azuolyno-m.lt/wp-content/uploads/2025/03/logo-1x1-1.png" alt="School Logo" class="w-24 h-24 object-contain" onerror="handleImgError(this)">
+                            </div>
+                        </div>
+                        <div class="p-4">
+                            <h3 class="font-bold text-teal-100 text-sm mb-1">Šimbolika</h3>
+                            <p class="text-xs text-teal-300/80">Mūsų mokyklos ženklas ir gėlė, kurie jus sveikina.</p>
+                        </div>
+                    </div>
+
+                    <!-- 2. Smartboard Funny Incident Card -->
+                    <div class="solid-ui-card rounded-2xl overflow-hidden flex flex-col justify-between">
+                        <div>
+                            <div class="relative w-full bg-gradient-to-b from-teal-950 to-teal-900 h-40 flex items-center justify-center overflow-hidden">
+                                <div class="text-center">
+                                    <svg class="w-16 h-16 mx-auto text-teal-400 opacity-70" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12a9 9 0 11-18 0 9 9 0 0118 0zm-9 5a4 4 0 100-8 4 4 0 000 8z"></path></svg>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="p-4">
+                            <h3 class="font-bold text-teal-100 text-sm mb-1">Pametęs Pelę</h3>
+                            <p class="text-xs text-teal-300/80">Mokytojai pamiršo, kad pelė į klasę be kablys.</p>
+                        </div>
+                    </div>
+
+                    <!-- 3. Less School Time Card -->
+                    <div class="solid-ui-card rounded-2xl overflow-hidden flex flex-col justify-between">
+                        <div>
+                            <div class="relative w-full bg-gradient-to-b from-teal-950 to-teal-900 h-40 flex items-center justify-center overflow-hidden">
+                                <svg class="w-16 h-16 text-teal-400 opacity-70" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+                            </div>
+                        </div>
+                        <div class="p-4">
+                            <h3 class="font-bold text-teal-100 text-sm mb-1">Mažiau laiko</h3>
+                            <p class="text-xs text-teal-300/80">Jei gali nuo pamokos pasprukti - tai sėkmė!</p>
+                        </div>
+                    </div>
+
+                    <!-- 4. Card with blank title window -->
+                    <div class="solid-ui-card rounded-2xl overflow-hidden flex flex-col justify-between">
+                        <div>
+                            <div class="relative w-full bg-gradient-to-b from-teal-950 to-teal-900 h-40 flex items-center justify-center overflow-hidden">
+                                <svg class="w-16 h-16 text-teal-400 opacity-70" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"></path></svg>
+                            </div>
+                        </div>
+                        <div class="p-4">
+                            <h3 class="font-bold text-teal-100 text-sm mb-1">Paslapčiai...</h3>
+                            <p class="text-xs text-teal-300/80">Yra ir tokių dalykų, kurie negali būti pasakyti.</p>
+                        </div>
+                    </div>
+
+                    <!-- 5. Card with blank title window -->
+                    <div class="solid-ui-card rounded-2xl overflow-hidden flex flex-col justify-between">
+                        <div>
+                            <div class="relative w-full bg-gradient-to-b from-teal-950 to-teal-900 h-40 flex items-center justify-center overflow-hidden">
+                                <svg class="w-16 h-16 text-teal-400 opacity-70" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14.828 14.828a4 4 0 01-5.656 0M9 10h.01M15 10h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+                            </div>
+                        </div>
+                        <div class="p-4">
+                            <h3 class="font-bold text-teal-100 text-sm mb-1">Linksma</h3>
+                            <p class="text-xs text-teal-300/80">Visada yra priežasčių juoktis ir smagiai praleisti laiką.</p>
+                        </div>
+                    </div>
+
+                    <!-- Card with title: Jo, tiesa... Bet aš nerūkau? -->
+                    <div class="solid-ui-card rounded-2xl overflow-hidden flex flex-col justify-between">
+                        <div>
+                            <div class="relative w-full bg-gradient-to-b from-teal-950 to-teal-900 h-40 flex items-center justify-center overflow-hidden">
+                                <svg class="w-16 h-16 text-teal-400 opacity-70" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
+                            </div>
+                        </div>
+                        <div class="p-4">
+                            <h3 class="font-bold text-teal-100 text-sm mb-1">Jo, tiesa...</h3>
+                            <p class="text-xs text-teal-300/80">Bet aš nerūkau? Tai šiandien svarbiausia klausimas.</p>
+                        </div>
+                    </div>
+
+                    <!-- Card with title: 5A Netradicinė Anglų Pamoka MO muziejuje. -->
+                    <div class="solid-ui-card rounded-2xl overflow-hidden flex flex-col justify-between">
+                        <div>
+                            <div class="relative w-full bg-gradient-to-b from-teal-950 to-teal-900 h-40 flex items-center justify-center overflow-hidden">
+                                <svg class="w-16 h-16 text-teal-400 opacity-70" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C6.5 6.253 2 10.998 2 17s4.5 10.747 10 10.747c5.5 0 10-4.998 10-10.747S17.5 6.253 12 6.253z"></path></svg>
+                            </div>
+                        </div>
+                        <div class="p-4">
+                            <h3 class="font-bold text-teal-100 text-sm mb-1">5A Anglų Pamoka</h3>
+                            <p class="text-xs text-teal-300/80">Netradicinė anglų pamoka Muziejuje - tikra puikybė!</p>
+                        </div>
+                    </div>
+
+                    <!-- New Card: Taigi jau matosi, kad niekam neįdomu... 😂 -->
+                    <div class="solid-ui-card rounded-2xl overflow-hidden flex flex-col justify-between">
+                        <div>
+                            <div class="relative w-full bg-gradient-to-b from-teal-950 to-teal-900 h-40 flex items-center justify-center overflow-hidden text-4xl">
+                                😂
+                            </div>
+                        </div>
+                        <div class="p-4">
+                            <h3 class="font-bold text-teal-100 text-sm mb-1">Niekam Neįdomu</h3>
+                            <p class="text-xs text-teal-300/80">Taigi jau matosi, kad niekam neįdomu...</p>
+                        </div>
+                    </div>
+
+                    <!-- New Card: Žemės diena -->
+                    <div class="solid-ui-card rounded-2xl overflow-hidden flex flex-col justify-between">
+                        <div>
+                            <div class="relative w-full bg-gradient-to-b from-teal-950 to-teal-900 h-40 flex items-center justify-center overflow-hidden">
+                                <svg class="w-16 h-16 text-teal-400 opacity-70" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3.055 11H5a2 2 0 012 2v1a2 2 0 002 2 2 2 0 012 2v2.945M8 3.935V5.5A2.5 2.5 0 0010.5 8h.5a2 2 0 012 2 2 2 0 104 0 2 2 0 012-2h.5A2.5 2.5 0 0016 5.5V3.935m0 2a1.964 1.964 0 00-1.933-2.026A1.964 1.964 0 0012 2.07m0 0a1.964 1.964 0 00-1.933 2.026M15 12a3 3 0 11-6 0 3 3 0 016 0zm6-3a2 2 0 11-4 0 2 2 0 014 0z"></path></svg>
+                            </div>
+                        </div>
+                        <div class="p-4">
+                            <h3 class="font-bold text-teal-100 text-sm mb-1">Žemės Diena</h3>
+                            <p class="text-xs text-teal-300/80">Aplinkos apsauga - mūsų darbas kiekvieną dieną!</p>
+                        </div>
+                    </div>
+
+                    <!-- New Card: 65 Metai -->
+                    <div class="solid-ui-card rounded-2xl overflow-hidden flex flex-col justify-between">
+                        <div>
+                            <div class="relative w-full bg-gradient-to-b from-teal-950 to-teal-900 h-40 flex items-center justify-center overflow-hidden text-3xl font-bold text-teal-300">
+                                65🎂
+                            </div>
+                        </div>
+                        <div class="p-4">
+                            <h3 class="font-bold text-teal-100 text-sm mb-1">Sukaktis</h3>
+                            <p class="text-xs text-teal-300/80">Šiandien švenčiame 65 metų jubiliejų!</p>
+                        </div>
+                    </div>
+
+                    <!-- New Card: Nuobodu -->
+                    <div class="solid-ui-card rounded-2xl overflow-hidden flex flex-col justify-between">
+                        <div>
+                            <div class="relative w-full bg-gradient-to-b from-teal-950 to-teal-900 h-40 flex items-center justify-center overflow-hidden text-4xl">
+                                😐
+                            </div>
+                        </div>
+                        <div class="p-4">
+                            <h3 class="font-bold text-teal-100 text-sm mb-1">Nuobodu...</h3>
+                            <p class="text-xs text-teal-300/80">Kartais pamokos tikrai išbando kantrybę.</p>
+                        </div>
+                    </div>
+
+                    <!-- New Card: Projektorius -->
+                    <div class="solid-ui-card rounded-2xl overflow-hidden flex flex-col justify-between">
+                        <div>
+                            <div class="relative w-full bg-gradient-to-b from-teal-950 to-teal-900 h-40 flex items-center justify-center overflow-hidden">
+                                <svg class="w-16 h-16 text-teal-400 opacity-70" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 4v16m10-16v16m-4-4V8m0 8h.01"></path></svg>
+                            </div>
+                        </div>
+                        <div class="p-4">
+                            <h3 class="font-bold text-teal-100 text-sm mb-1">Technika</h3>
+                            <p class="text-xs text-teal-300/80">Projektorius - mokymo pagalbininkas, kai veikia...</p>
+                        </div>
+                    </div>
+
+                    <!-- New Card: Ąžuolynas priešais Pradinę -->
+                    <div class="solid-ui-card rounded-2xl overflow-hidden flex flex-col justify-between">
+                        <div>
+                            <div class="relative w-full bg-gradient-to-b from-teal-950 to-teal-900 h-40 flex items-center justify-center overflow-hidden">
+                                <svg class="w-16 h-16 text-teal-400 opacity-70" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"></path></svg>
+                            </div>
+                        </div>
+                        <div class="p-4">
+                            <h3 class="font-bold text-teal-100 text-sm mb-1">Ąžuolynas</h3>
+                            <p class="text-xs text-teal-300/80">Mūsų mokyklos medis priešais Pradinę - simbolis!</p>
+                        </div>
+                    </div>
+
+                    <!-- New Card: Bėgu taip, kad neuždusčiau -->
+                    <div class="solid-ui-card rounded-2xl overflow-hidden flex flex-col justify-between">
+                        <div>
+                            <div class="relative w-full bg-gradient-to-b from-teal-950 to-teal-900 h-40 flex items-center justify-center overflow-hidden">
+                                <svg class="w-16 h-16 text-teal-400 opacity-70" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"></path></svg>
+                            </div>
+                        </div>
+                        <div class="p-4">
+                            <h3 class="font-bold text-teal-100 text-sm mb-1">Greitumas</h3>
+                            <p class="text-xs text-teal-300/80">Bėgu taip, kad neuždusčiau - klasikinis mokinių judesys!</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="w-full xl:w-80 flex flex-col gap-6">
+                <div class="solid-ui-card rounded-2xl p-5 transition-all duration-500 hover:scale-[1.02] hover:shadow-lg hover:shadow-teal-500/10 hover:border-teal-400/30 group">
+                    <div class="flex items-center justify-between mb-3">
+                        <h3 class="font-bold text-xs uppercase tracking-wider text-teal-400 flex items-center gap-2">
+                            <span class="w-2 h-2 bg-teal-400 rounded-full"></span>
+                            Naujienos
+                        </h3>
+                        <span class="text-[10px] text-teal-400/60 font-mono">NAUJA</span>
+                    </div>
+                    <div class="space-y-3 text-xs text-teal-200">
+                        <div class="p-3 solid-ui-button rounded-xl hover:bg-teal-500/10 hover:border-teal-400/40 transition-all duration-300 flex items-center justify-between">
+                            <span>Vasaros mažosios teniso žaidynės</span>
+                            <span class="text-teal-400/60">↗</span>
+                        </div>
+                        <div class="p-3 solid-ui-button rounded-xl hover:bg-teal-500/10 hover:border-teal-400/40 transition-all duration-300">Bibliotekos akcija: „Padovanok bibliotekai knygą".</div>
+                        <div class="p-3 solid-ui-button rounded-xl hover:bg-teal-500/10 hover:border-teal-400/40 transition-all duration-300">Naujas strateginis planas (2026-2028) paskelbtas portale.</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div id="tualetoView" class="view-section hidden flex-col gap-6 w-full max-w-4xl mx-auto">
+            <div class="solid-ui-card rounded-2xl p-8 flex flex-col items-center text-center">
+                <h2 class="text-2xl font-bold text-teal-100 mb-2">Tualeto Drama</h2>
+                <p class="text-teal-300/80 text-sm max-w-md leading-relaxed mb-6">Kur dingo visi popieriniai rankšluosčiai ir kodėl durys užrakintos?</p>
+                <div>
+                    <button onclick="switchView('galerija')" class="px-4 py-2 bg-teal-100 text-teal-950 text-xs font-medium rounded-xl hover:bg-white transition shadow-sm">Grįžti į galeriją</button>
+                </div>
+            </div>
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                <div class="solid-ui-card rounded-2xl p-6">
+                    <h3 class="font-bold text-teal-100 mb-2 text-sm">Mistinis popieriaus dingimas</h3>
+                    <p class="text-xs text-teal-300/80 leading-relaxed">Niekas nežino kur, bet jis visada išnyksta lygiai 8:45 ryto.</p>
+                </div>
+                <div class="solid-ui-card rounded-2xl p-6">
+                    <h3 class="font-bold text-teal-100 mb-2 text-sm">Užrakintos kabinos</h3>
+                    <p class="text-xs text-teal-300/80 leading-relaxed">Klasikinis survival režimas per ilgomis pertraukomis.</p>
+                </div>
+                <div class="solid-ui-card rounded-2xl p-6">
+                    <h3 class="font-bold text-teal-100 mb-2 text-sm">DureX incidentas</h3>
+                    <p class="text-xs text-teal-300/80 leading-relaxed">Tuelete kartą radau ant čiaupo užmautą DureX-ą.</p>
+                </div>
+            </div>
+        </div>
+
+        <div id="excuseView" class="view-section hidden flex-col gap-6 w-full max-w-4xl mx-auto">
+            <div class="solid-ui-card rounded-2xl p-8 flex flex-col items-center text-center">
+                <h2 class="text-2xl font-bold text-teal-100 mb-2">Pavėlavimo Excuse-ai</h2>
+                <p class="text-teal-300/80 text-sm max-w-md leading-relaxed mb-6">Oficialiai patvirtinti ir išbandyti pasiteisinimai mokytojams be streso.</p>
+                <div>
+                    <button onclick="switchView('galerija')" class="px-4 py-2 bg-teal-100 text-teal-950 text-xs font-medium rounded-xl hover:bg-white transition shadow-sm">Grįžti į galeriją</button>
+                </div>
+            </div>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <!-- Excuse 1 -->
+                <div class="solid-ui-card rounded-2xl p-6 flex flex-col justify-between">
+                    <div>
+                        <div class="flex items-center justify-between mb-2">
+                            <h3 class="font-bold text-teal-100 text-sm">Autobuso bėdos</h3>
+                            <span class="text-xs text-teal-400 font-mono">Rank 1</span>
+                        </div>
+                        <p class="text-xs text-teal-300/80 leading-relaxed">
+                            „Autobusas vėlavo 15 minučių. Tai nėra mano kaltė, tai visuomeninio transporto problema."
+                        </p>
+                    </div>
+                </div>
+
+                <!-- Excuse 2 -->
+                <div class="solid-ui-card rounded-2xl p-6 flex flex-col justify-between">
+                    <div>
+                        <div class="flex items-center justify-between mb-2">
+                            <h3 class="font-bold text-teal-100 text-sm">Nežinojau apie testą</h3>
+                            <span class="text-xs text-teal-400 font-mono">Rank 2</span>
+                        </div>
+                        <p class="text-xs text-teal-300/80 leading-relaxed">
+                            „Nežinojau, kad bus testas. Mano nešiojamasis kompiuteris nepikime interneto iš namų."
+                        </p>
+                    </div>
+                </div>
+
+                <!-- Excuse 3 -->
+                <div class="solid-ui-card rounded-2xl p-6 flex flex-col justify-between">
+                    <div>
+                        <div class="flex items-center justify-between mb-2">
+                            <h3 class="font-bold text-teal-100 text-sm">Namų darbai</h3>
+                            <span class="text-xs text-teal-400 font-mono">Rank 3</span>
+                        </div>
+                        <p class="text-xs text-teal-300/80 leading-relaxed">
+                            „Manau, kad namų darbai buvo kitai dienai. Mano sąsiuvinys liko namie..."
+                        </p>
+                    </div>
+                </div>
+
+                <!-- Excuse 4 -->
+                <div class="solid-ui-card rounded-2xl p-6 flex flex-col justify-between">
+                    <div>
+                        <div class="flex items-center justify-between mb-2">
+                            <h3 class="font-bold text-teal-100 text-sm">Nepavakėse</h3>
+                            <span class="text-xs text-teal-400 font-mono">Rank 4</span>
+                        </div>
+                        <p class="text-xs text-teal-300/80 leading-relaxed">
+                            „Vakar per vėlai guliau. Šiandien buvo sunku atsikelti iš lovos..."
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div id="tutorialaiView" class="view-section hidden flex-col gap-6 w-full max-w-4xl mx-auto">
+            <div class="solid-ui-card rounded-2xl p-8 flex flex-col items-center text-center">
+                <div class="w-16 h-16 mb-4 solid-ui-card rounded-full border border-teal-800/60 flex items-center justify-center p-2">
+                    <img src="https://www.azuolyno-m.lt/wp-content/uploads/2025/03/logo-1x1-1.png" alt="Logo" class="w-full h-full object-contain" onerror="this.src='https://placehold.co/100x100/0a1f2b/5eead4?text=L'">
+                </div>
+                <h2 class="text-2xl font-bold text-teal-100 mb-2">Tutorialai (naudingi)</h2>
+                <p class="text-teal-300/80 text-sm max-w-md leading-relaxed mb-6">Praktiniai vadovai, kaip išgyventi pamokas be absoliučios dipresijos.</p>
+                <div>
+                    <button onclick="switchView('galerija')" class="px-4 py-2 bg-teal-100 text-teal-950 text-xs font-medium rounded-xl hover:bg-white transition shadow-sm">Grįžti į galeriją</button>
+                </div>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <div class="solid-ui-card rounded-2xl p-6 flex flex-col justify-between">
+                    <div>
+                        <h3 class="font-bold text-teal-100 mb-3 text-sm">Kaip išgyventi nuobodžią matematikos pamoką</h3>
+                        <ol class="text-xs text-teal-300/80 leading-relaxed space-y-1 list-decimal list-inside">
+                            <li>Sėdėk iš paskos</li>
+                            <li>Daryti norus iš atliekų popierinės</li>
+                            <li>Branginiausias draugiškumą su kolegeomis</li>
+                            <li>Prašyk einant tualetan</li>
+                            <li>Laukite pabaigos!</li>
+                        </ol>
+                    </div>
+                </div>
+                <div class="solid-ui-card rounded-2xl p-6 flex flex-col justify-between">
+                    <div>
+                        <h3 class="font-bold text-teal-100 mb-3 text-sm">Kaip ne pamiršti namų darbų</h3>
+                        <ol class="text-xs text-teal-300/80 leading-relaxed space-y-1 list-decimal list-inside">
+                            <li>Parašyk iš šiurkščiu į sąsiuvinį</li>
+                            <li>Susėdink draugą jį priminti</li>
+                            <li>Nusiųsk žinutę sau</li>
+                            <li>Prieš pamoką, paklausk mokytojo</li>
+                            <li>Dirk pamokas negreit</li>
+                        </ol>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </main>
+
+    <div id="disclaimerModal" class="fixed inset-0 bg-black/70 backdrop-blur-md hidden items-center justify-center z-50 p-4">
+        <div class="solid-ui-card rounded-2xl max-w-md w-full p-6 shadow-2xl modal-animate-content">
+            <h3 class="text-base font-bold text-teal-100 mb-2">Informacija dėl nuotraukų</h3>
+            <p class="text-sm text-teal-300/80 leading-relaxed mb-6">Žmonėms, kurių veidai matomi, galima paprašyti ištrinti parašius paštu: Azuolynaz@gmail.com</p>
+            <div class="flex justify-end">
+                <button id="closeModalBtn" class="px-4 py-2 bg-teal-100 text-teal-950 text-xs font-medium rounded-xl hover:bg-white transition">Supratau</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Settings Modal -->
+    <div id="settingsModal" class="fixed inset-0 bg-black/70 backdrop-blur-md hidden items-center justify-center z-50 p-4">
+        <div class="solid-ui-card rounded-2xl max-w-md w-full p-6 shadow-2xl space-y-4 modal-animate-content">
+            <div class="flex items-center justify-between pb-3 border-b border-teal-900/40">
+                <h3 class="text-base font-bold text-teal-100 flex items-center gap-2">
+                    <span class="w-2 h-2 rounded-full bg-teal-400 animate-pulse"></span>
+                    Beta Funkcijos
+                </h3>
+                <button id="closeSettingsBtn" class="text-teal-400 hover:text-white">&times;</button>
+            </div>
+            <div class="solid-ui-card rounded-xl p-3 flex items-center justify-between">
+                <div class="space-y-0.5">
+                    <span class="text-xs font-medium text-teal-200">Liquid Glass UI</span>
+                    <p class="text-[10px] text-teal-400/80">Įjungti išplėstinį stiklo dizainą</p>
+                </div>
+                <label class="relative inline-flex items-center cursor-pointer">
+                    <input type="checkbox" id="liquidGlassToggle" class="sr-only peer">
+                    <div class="w-9 h-5 bg-teal-950 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-teal-200 after:border-teal-800 after:border after:rounded-full after:h-4 after:w-4 after:transition-all peer-checked:bg-teal-500"></div>
+                </label>
+            </div>
+            <div class="flex justify-end pt-2">
+                <button id="saveSettingsBtn" class="px-4 py-2 bg-teal-100 text-teal-950 text-xs font-medium rounded-xl hover:bg-white transition">Uždaryti</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Centered Cookie Consent Overlay -->
+    <div id="cookieBanner" class="fixed inset-0 bg-black/85 backdrop-blur-xl hidden items-center justify-center z-50 p-4 modal-animate-backdrop">
+        <div class="solid-ui-card max-w-md w-full rounded-2xl p-6 shadow-2xl flex flex-col gap-4 border border-teal-500/30 modal-animate-content">
+            <div class="flex items-start justify-between gap-2 border-b border-teal-900/40 pb-3">
+                <div class="flex items-center gap-2 text-teal-100 font-bold text-base">
+                    <svg class="w-5 h-5 text-teal-400 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"></path></svg>
+                    <span>Slapukų Nustatymai</span>
+                </div>
+                <button id="closeCookieBtn" class="text-teal-400 hover:text-white text-xl font-bold leading-none">&times;</button>
+            </div>
+            <p class="text-xs text-teal-300/90 leading-relaxed">
+                Naudojame vietinę atmintį (localStorage), kad išsaugotume jūsų pasirinktus svetainės nustatymus. Pasirinkite savo nustatymą norėdami tęsti.
+            </p>
+            <div class="flex items-center gap-3 pt-2">
+                <button id="acceptCookiesBtn" class="flex-1 py-2.5 px-4 bg-teal-400 hover:bg-teal-300 text-teal-950 font-bold text-xs rounded-xl transition shadow-lg">
+                    Sutinku
+                </button>
+                <button id="declineCookiesBtn" class="py-2.5 px-4 solid-ui-button text-teal-300 hover:text-white font-medium text-xs rounded-xl transition">
+                    Atsisakau
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        window.handleImgError = function(img) {
+            const parent = img.parentElement;
+            if (parent) {
+                parent.innerHTML = `
+                    <div class="p-4 text-center flex flex-col items-center justify-center h-full w-full bg-teal-950/80 text-teal-200">
+                        <div class="text-xs font-medium opacity-70">Nuotrauka<br>Neužkrauta</div>
+                    </div>
+                `;
+            }
+        };
+
+        document.addEventListener('DOMContentLoaded', () => {
+            const disclaimerBtn = document.getElementById('disclaimerBtn');
+            const disclaimerModal = document.getElementById('disclaimerModal');
+            const closeModalBtn = document.getElementById('closeModalBtn');
+            const settingsBtn = document.getElementById('settingsBtn');
+            const settingsModal = document.getElementById('settingsModal');
+            const closeSettingsBtn = document.getElementById('closeSettingsBtn');
+            const saveSettingsBtn = document.getElementById('saveSettingsBtn');
+            const liquidGlassToggle = document.getElementById('liquidGlassToggle');
+            const screenResEl = document.getElementById('screenResolution');
+
+            // Cookie Consent logic using localStorage
+            const cookieBanner = document.getElementById('cookieBanner');
+            const acceptCookiesBtn = document.getElementById('acceptCookiesBtn');
+            const declineCookiesBtn = document.getElementById('declineCookiesBtn');
+            const closeCookieBtn = document.getElementById('closeCookieBtn');
+
+            // Check if user has already made a choice previously
+            const hasConsented = localStorage.getItem('cookieConsent');
+            if (!hasConsented && cookieBanner) {
+                // Show banner only if no decision has been saved yet
+                cookieBanner.classList.remove('hidden');
+                cookieBanner.classList.add('flex');
+            }
+
+            function setCookieChoice(choice) {
+                // Save decision to browser's persistent storage
+                localStorage.setItem('cookieConsent', choice);
+                if (cookieBanner) {
+                    cookieBanner.classList.add('hidden');
+                    cookieBanner.classList.remove('flex');
+                }
+            }
+
+            if (acceptCookiesBtn) acceptCookiesBtn.addEventListener('click', () => setCookieChoice('accepted'));
+            if (declineCookiesBtn) declineCookiesBtn.addEventListener('click', () => setCookieChoice('declined'));
+            if (closeCookieBtn) closeCookieBtn.addEventListener('click', () => setCookieChoice('dismissed'));
+
+            function updateScreenInfo() {
+                if (screenResEl) {
+                    const width = window.innerWidth;
+                    const height = window.innerHeight;
+                    let tier = 'Mobilus';
+                    if (width >= 1280) tier = 'Didelis ekranas (XL)';
+                    else if (width >= 1024) tier = 'Stalinis (LG)';
+                    else if (width >= 768) tier = 'Laptopas, planšetė (MD)';
+                    
+                    screenResEl.textContent = `${width}x${height} px (${tier})`;
+                }
+            }
+
+            updateScreenInfo();
+            window.addEventListener('resize', updateScreenInfo);
+
+            if (liquidGlassToggle) {
+                const isLiquidGlassSaved = localStorage.getItem('liquidGlassActive') === 'true';
+                liquidGlassToggle.checked = isLiquidGlassSaved;
+                if (isLiquidGlassSaved) {
+                    document.body.classList.add('liquid-glass-enabled');
+                } else {
+                    document.body.classList.remove('liquid-glass-enabled');
+                }
+
+                liquidGlassToggle.addEventListener('change', (e) => {
+                    if (e.target.checked) {
+                        document.body.classList.add('liquid-glass-enabled');
+                        localStorage.setItem('liquidGlassActive', 'true');
+                    } else {
+                        document.body.classList.remove('liquid-glass-enabled');
+                        localStorage.setItem('liquidGlassActive', 'false');
+                    }
+                });
+            }
+
+            if (disclaimerBtn && disclaimerModal && closeModalBtn) {
+                disclaimerBtn.addEventListener('click', () => {
+                    disclaimerModal.classList.remove('hidden');
+                    disclaimerModal.classList.add('flex', 'modal-animate-backdrop');
+                });
+
+                closeModalBtn.addEventListener('click', () => {
+                    disclaimerModal.classList.add('hidden');
+                    disclaimerModal.classList.remove('flex', 'modal-animate-backdrop');
+                });
+            }
+
+            if (settingsBtn && settingsModal) {
+                settingsBtn.addEventListener('click', () => {
+                    settingsModal.classList.remove('hidden');
+                    settingsModal.classList.add('flex', 'modal-animate-backdrop');
+                });
+
+                const closeSettings = () => {
+                    settingsModal.classList.add('hidden');
+                    settingsModal.classList.remove('flex', 'modal-animate-backdrop');
+                };
+
+                closeSettingsBtn.addEventListener('click', closeSettings);
+                saveSettingsBtn.addEventListener('click', closeSettings);
+                settingsModal.addEventListener('click', (e) => {
+                    if (e.target === settingsModal) closeSettings();
+                });
+            }
+        });
+    </script>
+</body>
+</html>
